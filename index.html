@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIAO XIAO // DIGITAL UNDERGROUND</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --primary-accent: #FF0000; /* Neon Red */
+            --secondary-accent: #00FF00; /* Neon Green */
+            --noise-bg: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4uUzAAAABlBMVEUAAAD///+l2Z/dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXRSTlMAQObYZgAAAFRJREFUeNpjYGRkYmFmYWRkYGFjY2NlZGVkZWRmZmZmZmZkZmRmZGZkZmRmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmb//wD//wMAAADY/8UAAAAASUVORK5CYII=');
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            background-image: var(--noise-bg);
+        }
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px; z-index: 999; pointer-events: none; opacity: 0.15;
+        }
+        #identity {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-bottom: 2px dashed var(--primary-accent); position: relative;
+        }
+        #alias {
+            font-size: 3rem; color: var(--primary-accent); text-shadow: 0 0 10px var(--primary-accent);
+            margin: 0 0 1rem 0; text-transform: uppercase; font-weight: bold; cursor: pointer;
+        }
+        #alias:hover { animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite; }
+        #tags { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; justify-content: center; }
+        .tag-item {
+            border: 1px solid var(--primary-accent); color: var(--secondary-accent);
+            padding: 0.5rem 1rem; font-size: 0.9rem; text-shadow: 0 0 5px var(--secondary-accent);
+        }
+        #signature { color: #666666; font-size: 1.1rem; font-style: italic; text-align: center; max-width: 80%; }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        #articles { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+        #articles h2 { font-size: 2rem; color: var(--primary-accent); text-shadow: 0 0 8px var(--primary-accent); margin-bottom: 3rem; }
+        .post-item { border: 1px solid #1a1a1a; padding: 2rem; margin-bottom: 2rem; transition: all 0.2s ease; }
+        .post-item:hover { border-color: var(--primary-accent); box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); transform: translateY(-3px); }
+        .post-title-link { color: var(--primary-accent); text-decoration: none; font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem; display: block; }
+        .post-title-link:hover { animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite; }
+        .post-meta { color: #555555; font-size: 0.8rem; margin-bottom: 1rem; }
+        #scroll-down { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: var(--primary-accent); font-size: 1.5rem; animation: bounce 2s infinite; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-10px) translateX(-50%); }
+            60% { transform: translateY(-5px) translateX(-50%); }
+        }
+    </style>
+</head>
+<body>
+    <section id="identity">
+        <h1 id="alias">XIAO XIAO // 007829</h1>
+        <div id="tags">
+            <span class="tag-item">[🎤 嘻哈地下党]</span>
+            <span class="tag-item">[⚽ 曼城死忠]</span>
+            <span class="tag-item">[💻 硬件折腾家]</span>
+            <span class="tag-item">[🚀 前沿科技探索者]</span>
+        </div>
+        <p id="signature">Exploring the digital underground. Stay curious, stay rebellious.</p>
+        <div id="scroll-down">▼</div>
+    </section>
+
+    <section id="articles">
+        <h2>[ DIGITAL ARTIFACTS / 数字档案 ]</h2>
+        <div class="post-item">
+            <a href="#" class="post-title-link">HELLO WORLD // THE DIGITAL UNDERGROUND IS ALIVE</a>
+            <div class="post-meta">DATE: 2026-06-13 · TAGS: #随笔 #开通</div>
+            <p style="color: #999;">这里是我的数字自留地。代码丢给 AI 敲，我只负责保持真实和帅气。Stay real, FE!N FE!N FE!N.</p>
+        </div>
+    </section>
+</body>
+</html>
