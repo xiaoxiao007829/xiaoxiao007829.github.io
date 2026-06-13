@@ -6,83 +6,147 @@
     <title>XIAO XIAO // DIGITAL UNDERGROUND</title>
     <style>
         :root {
-            --bg-color: #000000;
-            --text-color: #ffffff;
-            --primary-accent: #FF0000; /* Neon Red */
-            --secondary-accent: #00FF00; /* Neon Green */
-            --noise-bg: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4uUzAAAABlBMVEUAAAD///+l2Z/dAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXRSTlMAQObYZgAAAFRJREFUeNpjYGRkYmFmYWRkYGFjY2NlZGVkZWRmZmZmZmZkZmRmZGZkZmRmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmb//wD//wMAAADY/8UAAAAASUVORK5CYII=');
+            --bg-dark: #050505;
+            --neon-red: #FF0033;
+            --neon-green: #00FF66;
+            --text-main: #FFFFFF;
+            --text-muted: #555555;
+            --panel-bg: rgba(15, 15, 15, 0.85);
         }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Consolas', 'Courier New', monospace;
             margin: 0; padding: 0;
             overflow-x: hidden;
-            background-image: var(--noise-bg);
         }
-        body::after {
-            content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px; z-index: 999; pointer-events: none; opacity: 0.15;
+
+        /* Scanline CRT 电视特效滤镜 */
+        body::before {
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 99; background-size: 100% 3px, 3px 100%; pointer-events: none;
         }
-        #identity {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            border-bottom: 2px dashed var(--primary-accent); position: relative;
+
+        /* 顶部迷幻红光渐变 */
+        .ambient-glow {
+            position: fixed; top: -10%; left: 50%; transform: translateX(-50%);
+            width: 80vw; height: 40vh; background: radial-gradient(circle, rgba(255, 0, 51, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0; pointer-events: none;
         }
-        #alias {
-            font-size: 3rem; color: var(--primary-accent); text-shadow: 0 0 10px var(--primary-accent);
-            margin: 0 0 1rem 0; text-transform: uppercase; font-weight: bold; cursor: pointer;
+
+        .container {
+            max-width: 760px; margin: 0 auto; padding: 5rem 1.5rem; position: relative; z-index: 10;
         }
-        #alias:hover { animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite; }
-        #tags { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; justify-content: center; }
-        .tag-item {
-            border: 1px solid var(--primary-accent); color: var(--secondary-accent);
-            padding: 0.5rem 1rem; font-size: 0.9rem; text-shadow: 0 0 5px var(--secondary-accent);
+
+        /* --- 个人信息硬核版面板 --- */
+        .profile-card {
+            background: var(--panel-bg); border: 2px solid #111; border-top: 4px solid var(--neon-red);
+            padding: 2.5rem; position: relative; margin-bottom: 4rem; box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
-        #signature { color: #666666; font-size: 1.1rem; font-style: italic; text-align: center; max-width: 80%; }
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            80% { transform: translate(3px, -3px); }
-            100% { transform: translate(0); }
+
+        .glitch-title {
+            font-size: 2.5rem; font-weight: 900; color: var(--text-main); margin: 0 0 1.5rem 0;
+            letter-spacing: -1px; text-transform: uppercase; text-shadow: 2px 2px 0 var(--neon-red);
         }
-        #articles { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
-        #articles h2 { font-size: 2rem; color: var(--primary-accent); text-shadow: 0 0 8px var(--primary-accent); margin-bottom: 3rem; }
-        .post-item { border: 1px solid #1a1a1a; padding: 2rem; margin-bottom: 2rem; transition: all 0.2s ease; }
-        .post-item:hover { border-color: var(--primary-accent); box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); transform: translateY(-3px); }
-        .post-title-link { color: var(--primary-accent); text-decoration: none; font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem; display: block; }
-        .post-title-link:hover { animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite; }
-        .post-meta { color: #555555; font-size: 0.8rem; margin-bottom: 1rem; }
-        #scroll-down { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: var(--primary-accent); font-size: 1.5rem; animation: bounce 2s infinite; }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-            40% { transform: translateY(-10px) translateX(-50%); }
-            60% { transform: translateY(-5px) translateX(-50%); }
+
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 2rem; }
+        .tag {
+            background: #111; border: 1px solid #222; color: var(--neon-red);
+            padding: 0.4rem 0.8rem; font-size: 0.85rem; font-weight: bold; transition: all 0.3s;
         }
+        .tag:hover { border-color: var(--neon-red); box-shadow: 0 0 8px rgba(255,0,51,0.4); color: var(--text-main); }
+
+        /* --- 伪嘻哈音频播放器卡片 --- */
+        .hiphop-player {
+            border-left: 3px solid var(--neon-green); background: #0c0c0c; padding: 1rem 1.5rem;
+            display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem;
+        }
+        .player-info { display: flex; align-items: center; gap: 1rem; }
+        .disc { 
+            width: 35px; height: 35px; background: #222; border-radius: 50%; 
+            border: 5px dashed var(--neon-red); animation: spin 4s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .track-name { font-weight: bold; font-size: 0.95rem; color: #fff; }
+        .track-artist { font-size: 0.8rem; color: var(--neon-green); }
+
+        /* --- 文章区域列表 --- */
+        .section-title {
+            font-size: 1.2rem; color: var(--text-muted); letter-spacing: 4px;
+            text-transform: uppercase; border-bottom: 1px solid #151515; padding-bottom: 0.5rem; margin-bottom: 2rem;
+        }
+
+        .post-card {
+            background: var(--panel-bg); border: 1px solid #151515; padding: 2rem;
+            margin-bottom: 1.5rem; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .post-card:hover {
+            border-color: var(--neon-red); transform: translateX(5px);
+            box-shadow: -5px 0 0 var(--neon-red), 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .post-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+        .post-title { font-size: 1.3rem; margin: 0; color: var(--text-main); font-weight: bold; text-decoration: none; }
+        .post-card:hover .post-title { color: var(--neon-red); }
+        .post-date { color: var(--text-muted); font-size: 0.85rem; }
+        .post-desc { color: #888; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        /* 独立博客详情页伪弹窗或展开的极简样式 */
+        .content-area { display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed #222; color: #ddd; }
+        .content-area.active { display: block; }
     </style>
 </head>
 <body>
-    <section id="identity">
-        <h1 id="alias">XIAO XIAO // 007829</h1>
-        <div id="tags">
-            <span class="tag-item">[🎤 嘻哈地下党]</span>
-            <span class="tag-item">[⚽ 曼城死忠]</span>
-            <span class="tag-item">[💻 硬件折腾家]</span>
-            <span class="tag-item">[🚀 前沿科技探索者]</span>
-        </div>
-        <p id="signature">Exploring the digital underground. Stay curious, stay rebellious.</p>
-        <div id="scroll-down">▼</div>
-    </section>
+    <div class="ambient-glow"></div>
+    <div class="container">
 
-    <section id="articles">
-        <h2>[ DIGITAL ARTIFACTS / 数字档案 ]</h2>
-        <div class="post-item">
-            <a href="#" class="post-title-link">HELLO WORLD // THE DIGITAL UNDERGROUND IS ALIVE</a>
-            <div class="post-meta">DATE: 2026-06-13 · TAGS: #随笔 #开通</div>
-            <p style="color: #999;">这里是我的数字自留地。代码丢给 AI 敲，我只负责保持真实和帅气。Stay real, FE!N FE!N FE!N.</p>
-        </div>
-    </section>
+        <header class="profile-card">
+            <h1 class="glitch-title">XIAO XIAO // 007829</h1>
+            <div class="tag-cloud">
+                <span class="tag">🎤 PLUGG & RAGE LAB</span>
+                <span class="tag">⚽ MANCHESTER CITY</span>
+                <span class="tag">💻 HACKINTOSH & ROUTER</span>
+                <span class="tag">🚀 TECH UNDERGROUND</span>
+            </div>
+            <div class="hiphop-player">
+                <div class="player-info">
+                    <div class="disc"></div>
+                    <div>
+                        <div class="track-name">FE!N (feat. Playboi Carti)</div>
+                        <div class="track-artist">NOW PLAYING ON XIAO'S RADAR</div>
+                    </div>
+                </div>
+                <div style="color: var(--neon-green); font-size: 0.8rem; letter-spacing: 2px;">● LIVE</div>
+            </div>
+        </header>
+
+        <main>
+            <div class="section-title">// DIGITAL ARTIFACTS / 档案列表</div>
+
+            <article class="post-card">
+                <div class="post-header">
+                    <a href="javascript:void(0);" class="post-title" onclick="togglePost(this)">HELLO WORLD // THE SECRETS OF DIGITAL BASE</a>
+                    <span class="post-date">2026.06.13</span>
+                </div>
+                <p class="post-desc">这里是我的数字自留地。网页框架交给全栈 AI 敲，我只负责倾注态度。保持叛逆，拒绝平庸。</p>
+                <div class="content-area">
+                    <p>当你看到这个豪华重构版时，说明我们的前沿科技管道已经彻底完工了！</p>
+                    <p>这个博客采用的是极轻量的纯前端架构，拒绝了繁琐的后台和臃肿的数据库，可以说是最纯粹的极客选择。</p>
+                    <p>接下来，不管是深夜里为曼城逆转赢球写下的狂欢评述，还是折腾电脑黑苹果（Hackintosh）和软路由失败三次后终于跑通的硬核硬货笔记，亦或是淘到冷门 Underground 厂牌专辑的惊喜，我都会丢进这个基地里。</p>
+                </div>
+            </article>
+            </main>
+    </div>
+
+    <script>
+        // 文章点击展开/折叠的黑科技脚本
+        function togglePost(element) {
+            const content = element.closest('.post-card').querySelector('.content-area');
+            content.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
